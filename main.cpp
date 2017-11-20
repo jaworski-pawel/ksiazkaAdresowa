@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ struct Osoba
     string imie, nazwisko, nrTel, email, adres;
 };
 
-int dodajOsobe(Osoba osoby[], int iloscOsob)
+int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
 {
     int id;
     string imie, nazwisko, nrTel, email, adres;
@@ -63,12 +64,14 @@ int dodajOsobe(Osoba osoby[], int iloscOsob)
     return iloscOsob;
 }
 
-int wcztajOsobyZPliku(Osoba osoby[])
+int wcztajOsobyZPliku(vector<Osoba> &osoby)
 {
     string wczytanaLinia;
     int nrLinii=1;
     int iloscOsob = 0;
     int rodzajPola;
+
+    Osoba tymczasowaOsoba;
 
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::in);
@@ -80,26 +83,27 @@ int wcztajOsobyZPliku(Osoba osoby[])
         switch (rodzajPola)
         {
         case 1:
-            osoby[iloscOsob].id = iloscOsob+1;
+            tymczasowaOsoba.id = iloscOsob+1;
             break;
         case 2:
-            osoby[iloscOsob].imie = wczytanaLinia;
+            tymczasowaOsoba.imie = wczytanaLinia;
             break;
         case 3:
-            osoby[iloscOsob].nazwisko = wczytanaLinia;
+            tymczasowaOsoba.nazwisko = wczytanaLinia;
             break;
         case 4:
-            osoby[iloscOsob].nrTel = wczytanaLinia;
+            tymczasowaOsoba.nrTel = wczytanaLinia;
             break;
         case 5:
-            osoby[iloscOsob].email = wczytanaLinia;
+            tymczasowaOsoba.email = wczytanaLinia;
             break;
         case 0:
-            osoby[iloscOsob].adres = wczytanaLinia;
+            tymczasowaOsoba.adres = wczytanaLinia;
             iloscOsob++;
             break;
         }
         nrLinii++;
+        osoby.push_back(tymczasowaOsoba);
     }
 
     plik.close();
@@ -107,7 +111,7 @@ int wcztajOsobyZPliku(Osoba osoby[])
     return iloscOsob;
 }
 
-void wyszukajPoImieniu(Osoba osoby[], string szukanaFraza)
+void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza)
 {
     int iloscOsob;
     int znalezioneKontakty = 0;
@@ -140,7 +144,7 @@ void wyszukajPoImieniu(Osoba osoby[], string szukanaFraza)
     system("pause");
 }
 
-void wyszukajPoNazwisku(Osoba osoby[], string szukanaFraza)
+void wyszukajPoNazwisku(vector<Osoba> &osoby, string szukanaFraza)
 {
     int iloscOsob;
     int znalezioneKontakty = 0;
@@ -173,7 +177,7 @@ void wyszukajPoNazwisku(Osoba osoby[], string szukanaFraza)
     system("pause");
 }
 
-void wyswietlWszystkieOsoby(Osoba osoby[])
+void wyswietlWszystkieOsoby(vector<Osoba> &osoby)
 {
     int iloscOsob;
     int znalezioneKontakty = 0;
@@ -205,7 +209,7 @@ void wyswietlWszystkieOsoby(Osoba osoby[])
 }
 int main()
 {
-    Osoba osoby[1000];
+    vector<Osoba> osoby(0);
     int iloscOsob = 0;
     char wybor;
     string szukanaFraza;

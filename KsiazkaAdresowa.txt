@@ -1,24 +1,3 @@
-1
-Pawel
-Jaworski
-722275125
-pawel.jaworski@live.com
-Zawieprzyce 80 21-077 Spiczyn
-2
-Jan
-Kowalski
-324
-dfo
-grg gr
-1
-Adam
-Nowak
-456463
-gsvrtbd
-cexh dhc chtc
-1
-Pawel
-Kowalski
-2523
-gseg
-5gsdg5 gs
+1|Jan|Kowalski|3|w|d
+2|Jan|Nowak|4|f|w
+3|Adam|Nowak|7|h|5

@@ -2,6 +2,8 @@
 #include <windows.h>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -11,10 +13,17 @@ struct Osoba
     string imie, nazwisko, nrTel, email, adres;
 };
 
+int stringNaInt(string liczbaString)
+{
+    int liczbaInt = atoi(liczbaString.c_str());
+    return liczbaInt;
+}
+
 int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
 {
     int id;
     string imie, nazwisko, nrTel, email, adres;
+    Osoba tymczasowaOsoba;
 
     system("cls");
     cout << "Dodawanie osoby" << endl;
@@ -33,24 +42,20 @@ int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
 
     id = iloscOsob+1;
 
-    osoby[iloscOsob].id = id;
-    osoby[iloscOsob].imie = imie;
-    osoby[iloscOsob].nazwisko = nazwisko;
-    osoby[iloscOsob].nrTel = nrTel;
-    osoby[iloscOsob].email = email;
-    osoby[iloscOsob].adres = adres;
+    tymczasowaOsoba.id = id;
+    tymczasowaOsoba.imie = imie;
+    tymczasowaOsoba.nazwisko = nazwisko;
+    tymczasowaOsoba.nrTel = nrTel;
+    tymczasowaOsoba.email = email;
+    tymczasowaOsoba.adres = adres;
+    osoby.push_back(tymczasowaOsoba);
+
 
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
     if (plik.good())
     {
-        plik << id << endl;
-        plik << imie << endl;
-        plik << nazwisko << endl;
-        plik << nrTel << endl;
-        plik << email << endl;
-        plik << adres << endl;
-
+        plik << id << "|" << imie << "|" << nazwisko << "|" << nrTel << "|" << email << "|" << adres << endl;
         plik.close();
 
         cout << "Osoba zostala dodana.";
@@ -61,15 +66,14 @@ int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
         cout << "Nie mozna otworzyc pliku KsiazkaAdresowa.txt" << endl;
     }
     iloscOsob++;
+    osoby.erase(osoby.begin(), osoby.end());
     return iloscOsob;
 }
 
 int wcztajOsobyZPliku(vector<Osoba> &osoby)
 {
     string wczytanaLinia;
-    int nrLinii=1;
     int iloscOsob = 0;
-    int rodzajPola;
 
     Osoba tymczasowaOsoba;
 
@@ -79,36 +83,36 @@ int wcztajOsobyZPliku(vector<Osoba> &osoby)
 
     while (getline(plik, wczytanaLinia))
     {
-        rodzajPola=nrLinii%6;
-        switch (rodzajPola)
+        int dlugoscWczytanejLinii = wczytanaLinia.size();
+        int nrPola = 0;
+        vector<string> poleKontaktu(6);
+
+        for (int pozycjaZnaku = 0; pozycjaZnaku < dlugoscWczytanejLinii; pozycjaZnaku++)
         {
-        case 1:
-            tymczasowaOsoba.id = iloscOsob+1;
-            break;
-        case 2:
-            tymczasowaOsoba.imie = wczytanaLinia;
-            break;
-        case 3:
-            tymczasowaOsoba.nazwisko = wczytanaLinia;
-            break;
-        case 4:
-            tymczasowaOsoba.nrTel = wczytanaLinia;
-            break;
-        case 5:
-            tymczasowaOsoba.email = wczytanaLinia;
-            break;
-        case 0:
-            tymczasowaOsoba.adres = wczytanaLinia;
-            iloscOsob++;
-            break;
+            if (wczytanaLinia[pozycjaZnaku] != 124)
+            {
+                poleKontaktu[nrPola] +=wczytanaLinia[pozycjaZnaku];
+            }
+            else
+            {
+                nrPola++;
+            }
         }
-        nrLinii++;
+        tymczasowaOsoba.id = stringNaInt(poleKontaktu[0]);
+        tymczasowaOsoba.imie = poleKontaktu[1];
+        tymczasowaOsoba.nazwisko = poleKontaktu[2];
+        tymczasowaOsoba.nrTel = poleKontaktu[3];
+        tymczasowaOsoba.email = poleKontaktu[4];
+        tymczasowaOsoba.adres = poleKontaktu[5];
         osoby.push_back(tymczasowaOsoba);
+        poleKontaktu.erase(poleKontaktu.begin(), poleKontaktu.end());
+
+        iloscOsob++;
     }
 
-    plik.close();
+plik.close();
 
-    return iloscOsob;
+return iloscOsob;
 }
 
 void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza)
@@ -227,6 +231,7 @@ int main()
 
         if (wybor == '1')
         {
+            iloscOsob = wcztajOsobyZPliku(osoby);
             iloscOsob = dodajOsobe(osoby, iloscOsob);
         }
         else if (wybor == '2')

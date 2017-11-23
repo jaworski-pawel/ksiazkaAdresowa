@@ -13,13 +13,77 @@ struct Osoba
     string imie, nazwisko, nrTel, email, adres;
 };
 
+int stringNaInt(string liczbaString);
+void zapiszDaneDoPliku(vector<Osoba> &osoby, int iloscOsob);
+int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu);
+int dodajOsobe(vector<Osoba> &osoby, int iloscOsob);
+int wczytajOsobyZPliku(vector<Osoba> &osoby);
+void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza);
+void wyszukajPoNazwisku(vector<Osoba> &osoby, string szukanaFraza);
+void wyswietlWszystkieOsoby(vector<Osoba> &osoby);
+void edytujKontakt(vector<Osoba> &osoby);
+
+int main()
+{
+    vector<Osoba> osoby(0);
+    int iloscOsob = 0;
+    char wybor;
+    string szukanaFraza;
+
+    while (true)
+    {
+        system("cls");
+        cout << "1. Dodaj nowa osobe" << endl;
+        cout << "2. Wyszukaj po imieniu" << endl;
+        cout << "3. Wyszukaj po nazwisku" << endl;
+        cout << "4. Wyswietl wszystkie kontakty" << endl;
+        cout << "5. Edycja kontaktu" << endl;
+        cout << "9. Zakoncz program" << endl;
+        cout << "Twoj wybor: ";
+        cin >> wybor;
+
+        if (wybor == '1')
+        {
+            iloscOsob = wczytajOsobyZPliku(osoby);
+            iloscOsob = dodajOsobe(osoby, iloscOsob);
+        }
+        else if (wybor == '2')
+        {
+            cout << "Wyszukiwanie kontaktow po imieniu." << endl;
+            cout << "Podaj imie: ";
+            cin >> szukanaFraza;
+            wyszukajPoImieniu(osoby, szukanaFraza);
+        }
+        else if (wybor == '3')
+        {
+            cout << "Wyszukiwanie kontaktow po nazwisku." << endl;
+            cout << "Podaj nazwisko: ";
+            cin >> szukanaFraza;
+            wyszukajPoNazwisku(osoby, szukanaFraza);
+        }
+        else if (wybor == '4')
+        {
+            wyswietlWszystkieOsoby(osoby);
+        }
+        else if (wybor == '5')
+        {
+            edytujKontakt(osoby);
+        }
+        else if (wybor == '9')
+        {
+            exit(0);
+        }
+    }
+    return 0;
+}
+
 int stringNaInt(string liczbaString)
 {
     int liczbaInt = atoi(liczbaString.c_str());
     return liczbaInt;
 }
 
-int zapiszDaneDoPliku (vector<Osoba> &osoby, int iloscOsob)
+void zapiszDaneDoPliku(vector<Osoba> &osoby, int iloscOsob)
 {
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out);
@@ -49,6 +113,37 @@ int zapiszDaneDoPliku (vector<Osoba> &osoby, int iloscOsob)
     }
 
 }
+
+int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu)
+{
+    bool czyZnalezionoId;
+    int znalezionyiteratorKontaktu;
+
+    for (int iteratorKontaktu = 0; iteratorKontaktu < iloscOsob; iteratorKontaktu++)
+    {
+        if (idKontaktu == osoby[iteratorKontaktu].id)
+        {
+            czyZnalezionoId = true;
+            znalezionyiteratorKontaktu = iteratorKontaktu;
+        }
+        else
+        {
+            czyZnalezionoId = false;
+        }
+    }
+
+    if (czyZnalezionoId)
+    {
+        return znalezionyiteratorKontaktu;
+    }
+    else
+    {
+        cout << "Nieprawidlowe ID" << endl;
+            Sleep(2000);
+            edytujKontakt(osoby);
+    }
+}
+
 int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
 {
     int id;
@@ -242,7 +337,7 @@ void wyswietlWszystkieOsoby(vector<Osoba> &osoby)
     system("pause");
 }
 
-void edycjaKontaktu (vector<Osoba> &osoby)
+void edytujKontakt(vector<Osoba> &osoby)
 {
     int szukaneId;
     int iteratorKontaktu;
@@ -254,7 +349,7 @@ void edycjaKontaktu (vector<Osoba> &osoby)
     cout << "Edycja kontaktu" << endl;
     cout << "Podaj ID: ";
     cin >> szukaneId;
-    iteratorKontaktu = szukaneId - 1;
+    iteratorKontaktu = znajdzIteratorKontaktu(osoby, iloscOsob, szukaneId);
 
     system("cls");
     cout << "Edycja danych"<< endl;
@@ -279,58 +374,4 @@ void edycjaKontaktu (vector<Osoba> &osoby)
     cin.sync();
     getline(cin, osoby[iteratorKontaktu].adres);
     zapiszDaneDoPliku(osoby, iloscOsob);
-}
-
-int main()
-{
-    vector<Osoba> osoby(0);
-    int iloscOsob = 0;
-    char wybor;
-    string szukanaFraza;
-
-    while (true)
-    {
-        system("cls");
-        cout << "1. Dodaj nowa osobe" << endl;
-        cout << "2. Wyszukaj po imieniu" << endl;
-        cout << "3. Wyszukaj po nazwisku" << endl;
-        cout << "4. Wyswietl wszystkie kontakty" << endl;
-        cout << "5. Edycja kontaktu" << endl;
-        cout << "9. Zakoncz program" << endl;
-        cout << "Twoj wybor: ";
-        cin >> wybor;
-
-        if (wybor == '1')
-        {
-            iloscOsob = wczytajOsobyZPliku(osoby);
-            iloscOsob = dodajOsobe(osoby, iloscOsob);
-        }
-        else if (wybor == '2')
-        {
-            cout << "Wyszukiwanie kontaktow po imieniu." << endl;
-            cout << "Podaj imie: ";
-            cin >> szukanaFraza;
-            wyszukajPoImieniu(osoby, szukanaFraza);
-        }
-        else if (wybor == '3')
-        {
-            cout << "Wyszukiwanie kontaktow po nazwisku." << endl;
-            cout << "Podaj nazwisko: ";
-            cin >> szukanaFraza;
-            wyszukajPoNazwisku(osoby, szukanaFraza);
-        }
-        else if (wybor == '4')
-        {
-            wyswietlWszystkieOsoby(osoby);
-        }
-        else if (wybor == '5')
-        {
-            edycjaKontaktu(osoby);
-        }
-        else if (wybor == '9')
-        {
-            exit(0);
-        }
-    }
-    return 0;
 }

@@ -1,5 +1,6 @@
 *.cbp
 *.depend
 *.layout
+*.txt
 obj
 bin

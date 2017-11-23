@@ -22,6 +22,7 @@ void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza);
 void wyszukajPoNazwisku(vector<Osoba> &osoby, string szukanaFraza);
 void wyswietlWszystkieOsoby(vector<Osoba> &osoby);
 void edytujKontakt(vector<Osoba> &osoby);
+void usunKontakt(vector<Osoba> &osoby);
 
 int main()
 {
@@ -38,6 +39,7 @@ int main()
         cout << "3. Wyszukaj po nazwisku" << endl;
         cout << "4. Wyswietl wszystkie kontakty" << endl;
         cout << "5. Edycja kontaktu" << endl;
+        cout << "6. Usuwanie kontaktu" << endl;
         cout << "9. Zakoncz program" << endl;
         cout << "Twoj wybor: ";
         cin >> wybor;
@@ -68,6 +70,10 @@ int main()
         else if (wybor == '5')
         {
             edytujKontakt(osoby);
+        }
+        else if (wybor == '6')
+        {
+            usunKontakt(osoby);
         }
         else if (wybor == '9')
         {
@@ -125,6 +131,7 @@ int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu)
         {
             czyZnalezionoId = true;
             znalezionyiteratorKontaktu = iteratorKontaktu;
+            break;
         }
         else
         {
@@ -373,5 +380,40 @@ void edytujKontakt(vector<Osoba> &osoby)
     cout << "Podaj adres: ";
     cin.sync();
     getline(cin, osoby[iteratorKontaktu].adres);
+    zapiszDaneDoPliku(osoby, iloscOsob);
+}
+
+void usunKontakt(vector<Osoba> &osoby)
+{
+    int szukaneId;
+    int iteratorKontaktu;
+    int iloscOsob;
+    char odpowiedz;
+
+    iloscOsob = wczytajOsobyZPliku(osoby);
+
+    system("cls");
+    cout << "Usuwanie kontaktu" << endl;
+    cout << "Podaj ID: ";
+    cin >> szukaneId;
+    iteratorKontaktu = znajdzIteratorKontaktu(osoby, iloscOsob, szukaneId);
+
+    system("cls");
+    cout << "Usun kontakt"<< endl;
+    cout << "ID: " << osoby[iteratorKontaktu].id << endl;
+    cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
+    cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
+    cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
+    cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
+    cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
+    cout << endl;
+
+    cout << "Czy na pewno usunac kontakt? (T/N)";
+    cin >> odpowiedz;
+    if (odpowiedz == 'T' || odpowiedz =='t')
+    {
+        osoby.erase(osoby.begin() + iteratorKontaktu);
+    }
+    iloscOsob--;
     zapiszDaneDoPliku(osoby, iloscOsob);
 }

@@ -19,6 +19,36 @@ int stringNaInt(string liczbaString)
     return liczbaInt;
 }
 
+int zapiszDaneDoPliku (vector<Osoba> &osoby, int iloscOsob)
+{
+    fstream plik;
+    plik.open("KsiazkaAdresowa.txt", ios::out);
+    if (plik.good())
+    {
+        plik << osoby[0].id << "|" << osoby[0].imie << "|" << osoby[0].nazwisko << "|" << osoby[0].nrTel << "|" << osoby[0].email << "|" << osoby[0].adres << endl;
+        plik.close();
+    }
+    else
+    {
+        cout << "Nie mozna otworzyc pliku KsiazkaAdresowa.txt" << endl;
+    }
+
+    for (int iteratorKontaktu = 1; iteratorKontaktu < iloscOsob; iteratorKontaktu++)
+    {
+        fstream plik;
+        plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
+        if (plik.good())
+        {
+            plik << osoby[iteratorKontaktu].id << "|" << osoby[iteratorKontaktu].imie << "|" << osoby[iteratorKontaktu].nazwisko << "|" << osoby[iteratorKontaktu].nrTel << "|" << osoby[iteratorKontaktu].email << "|" << osoby[iteratorKontaktu].adres << endl;
+            plik.close();
+        }
+        else
+        {
+            cout << "Nie mozna otworzyc pliku KsiazkaAdresowa.txt" << endl;
+        }
+    }
+
+}
 int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
 {
     int id;
@@ -70,7 +100,7 @@ int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
     return iloscOsob;
 }
 
-int wcztajOsobyZPliku(vector<Osoba> &osoby)
+int wczytajOsobyZPliku(vector<Osoba> &osoby)
 {
     string wczytanaLinia;
     int iloscOsob = 0;
@@ -110,9 +140,9 @@ int wcztajOsobyZPliku(vector<Osoba> &osoby)
         iloscOsob++;
     }
 
-plik.close();
+    plik.close();
 
-return iloscOsob;
+    return iloscOsob;
 }
 
 void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza)
@@ -120,7 +150,7 @@ void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza)
     int iloscOsob;
     int znalezioneKontakty = 0;
 
-    iloscOsob = wcztajOsobyZPliku(osoby);
+    iloscOsob = wczytajOsobyZPliku(osoby);
     cout << "Kontakty o imieniu " << szukanaFraza << ": " << endl;
 
     for (int i = 0; i < iloscOsob; i++)
@@ -153,7 +183,7 @@ void wyszukajPoNazwisku(vector<Osoba> &osoby, string szukanaFraza)
     int iloscOsob;
     int znalezioneKontakty = 0;
 
-    iloscOsob = wcztajOsobyZPliku(osoby);
+    iloscOsob = wczytajOsobyZPliku(osoby);
     cout << "Kontakty o nazwisku " << szukanaFraza << ": " << endl;
 
     for (int i = 0; i < iloscOsob; i++)
@@ -186,7 +216,7 @@ void wyswietlWszystkieOsoby(vector<Osoba> &osoby)
     int iloscOsob;
     int znalezioneKontakty = 0;
 
-    iloscOsob = wcztajOsobyZPliku(osoby);
+    iloscOsob = wczytajOsobyZPliku(osoby);
     cout << "Lista wszystkich kontaktow: " << endl;
 
     for (int i = 0; i < iloscOsob; i++)
@@ -211,6 +241,46 @@ void wyswietlWszystkieOsoby(vector<Osoba> &osoby)
     }
     system("pause");
 }
+
+void edycjaKontaktu (vector<Osoba> &osoby)
+{
+    int szukaneId;
+    int iteratorKontaktu;
+    int iloscOsob;
+
+    iloscOsob = wczytajOsobyZPliku(osoby);
+
+    system("cls");
+    cout << "Edycja kontaktu" << endl;
+    cout << "Podaj ID: ";
+    cin >> szukaneId;
+    iteratorKontaktu = szukaneId - 1;
+
+    system("cls");
+    cout << "Edycja danych"<< endl;
+    cout << "ID: " << osoby[iteratorKontaktu].id << endl;
+    cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
+    cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
+    cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
+    cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
+    cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
+    cout << endl;
+
+    cout << "Podaj imie: ";
+    cin >> osoby[iteratorKontaktu].imie;
+    cout << "Podaj nazwisko: ";
+    cin >> osoby[iteratorKontaktu].nazwisko;
+    cout << "Podaj numer telefonu: ";
+    cin.sync();
+    getline(cin, osoby[iteratorKontaktu].nrTel);
+    cout << "Podaj e-mail: ";
+    cin >> osoby[iteratorKontaktu].email;
+    cout << "Podaj adres: ";
+    cin.sync();
+    getline(cin, osoby[iteratorKontaktu].adres);
+    zapiszDaneDoPliku(osoby, iloscOsob);
+}
+
 int main()
 {
     vector<Osoba> osoby(0);
@@ -225,13 +295,14 @@ int main()
         cout << "2. Wyszukaj po imieniu" << endl;
         cout << "3. Wyszukaj po nazwisku" << endl;
         cout << "4. Wyswietl wszystkie kontakty" << endl;
+        cout << "5. Edycja kontaktu" << endl;
         cout << "9. Zakoncz program" << endl;
         cout << "Twoj wybor: ";
         cin >> wybor;
 
         if (wybor == '1')
         {
-            iloscOsob = wcztajOsobyZPliku(osoby);
+            iloscOsob = wczytajOsobyZPliku(osoby);
             iloscOsob = dodajOsobe(osoby, iloscOsob);
         }
         else if (wybor == '2')
@@ -251,6 +322,10 @@ int main()
         else if (wybor == '4')
         {
             wyswietlWszystkieOsoby(osoby);
+        }
+        else if (wybor == '5')
+        {
+            edycjaKontaktu(osoby);
         }
         else if (wybor == '9')
         {

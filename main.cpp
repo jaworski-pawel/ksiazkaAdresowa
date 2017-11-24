@@ -16,6 +16,7 @@ struct Osoba
 int stringNaInt(string liczbaString);
 void zapiszDaneDoPliku(vector<Osoba> &osoby, int iloscOsob);
 int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu);
+int przypiszId(vector<Osoba> osoby, int iloscOsob);
 int dodajOsobe(vector<Osoba> &osoby, int iloscOsob);
 int wczytajOsobyZPliku(vector<Osoba> &osoby);
 void wyszukajPoImieniu(vector<Osoba> &osoby, string szukanaFraza);
@@ -122,7 +123,7 @@ void zapiszDaneDoPliku(vector<Osoba> &osoby, int iloscOsob)
 
 int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu)
 {
-    bool czyZnalezionoId;
+    bool czyZnalezionoId = false;
     int znalezionyiteratorKontaktu;
 
     for (int iteratorKontaktu = 0; iteratorKontaktu < iloscOsob; iteratorKontaktu++)
@@ -145,10 +146,19 @@ int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu)
     }
     else
     {
-        cout << "Nieprawidlowe ID" << endl;
-            Sleep(2000);
-            edytujKontakt(osoby);
+        return(-1);
     }
+}
+
+int przypiszId(vector<Osoba> osoby, int iloscOsob)
+{
+    int wolneId = 1;
+
+    while (znajdzIteratorKontaktu(osoby, iloscOsob, wolneId) != -1)
+    {
+        wolneId++;
+    }
+    return wolneId;
 }
 
 int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
@@ -172,7 +182,8 @@ int dodajOsobe(vector<Osoba> &osoby, int iloscOsob)
     cin.sync();
     getline(cin, adres);
 
-    id = iloscOsob+1;
+    id = przypiszId(osoby, iloscOsob);
+    cout << "Przypisano id " << id << endl;
 
     tymczasowaOsoba.id = id;
     tymczasowaOsoba.imie = imie;
@@ -358,29 +369,37 @@ void edytujKontakt(vector<Osoba> &osoby)
     cin >> szukaneId;
     iteratorKontaktu = znajdzIteratorKontaktu(osoby, iloscOsob, szukaneId);
 
-    system("cls");
-    cout << "Edycja danych"<< endl;
-    cout << "ID: " << osoby[iteratorKontaktu].id << endl;
-    cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
-    cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
-    cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
-    cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
-    cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
-    cout << endl;
+    if (iteratorKontaktu == -1)
+    {
+        cout << "Nieprawidlowe ID" << endl;
+        edytujKontakt(osoby);
+    }
+    else
+    {
+        system("cls");
+        cout << "Edycja danych"<< endl;
+        cout << "ID: " << osoby[iteratorKontaktu].id << endl;
+        cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
+        cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
+        cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
+        cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
+        cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
+        cout << endl;
 
-    cout << "Podaj imie: ";
-    cin >> osoby[iteratorKontaktu].imie;
-    cout << "Podaj nazwisko: ";
-    cin >> osoby[iteratorKontaktu].nazwisko;
-    cout << "Podaj numer telefonu: ";
-    cin.sync();
-    getline(cin, osoby[iteratorKontaktu].nrTel);
-    cout << "Podaj e-mail: ";
-    cin >> osoby[iteratorKontaktu].email;
-    cout << "Podaj adres: ";
-    cin.sync();
-    getline(cin, osoby[iteratorKontaktu].adres);
-    zapiszDaneDoPliku(osoby, iloscOsob);
+        cout << "Podaj imie: ";
+        cin >> osoby[iteratorKontaktu].imie;
+        cout << "Podaj nazwisko: ";
+        cin >> osoby[iteratorKontaktu].nazwisko;
+        cout << "Podaj numer telefonu: ";
+        cin.sync();
+        getline(cin, osoby[iteratorKontaktu].nrTel);
+        cout << "Podaj e-mail: ";
+        cin >> osoby[iteratorKontaktu].email;
+        cout << "Podaj adres: ";
+        cin.sync();
+        getline(cin, osoby[iteratorKontaktu].adres);
+        zapiszDaneDoPliku(osoby, iloscOsob);
+    }
 }
 
 void usunKontakt(vector<Osoba> &osoby)
@@ -398,22 +417,30 @@ void usunKontakt(vector<Osoba> &osoby)
     cin >> szukaneId;
     iteratorKontaktu = znajdzIteratorKontaktu(osoby, iloscOsob, szukaneId);
 
-    system("cls");
-    cout << "Usun kontakt"<< endl;
-    cout << "ID: " << osoby[iteratorKontaktu].id << endl;
-    cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
-    cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
-    cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
-    cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
-    cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
-    cout << endl;
-
-    cout << "Czy na pewno usunac kontakt? (T/N)";
-    cin >> odpowiedz;
-    if (odpowiedz == 'T' || odpowiedz =='t')
+    if (iteratorKontaktu == -1)
     {
-        osoby.erase(osoby.begin() + iteratorKontaktu);
+        cout << "Nieprawidlowe ID" << endl;
+        usunKontakt(osoby);
     }
-    iloscOsob--;
-    zapiszDaneDoPliku(osoby, iloscOsob);
+    else
+    {
+        system("cls");
+        cout << "Usun kontakt"<< endl;
+        cout << "ID: " << osoby[iteratorKontaktu].id << endl;
+        cout << "Imie: " << osoby[iteratorKontaktu].imie << endl;
+        cout << "Nazwisko: " << osoby[iteratorKontaktu].nazwisko << endl;
+        cout << "Numer telefonu: " << osoby[iteratorKontaktu].nrTel << endl;
+        cout << "E-mail: " << osoby[iteratorKontaktu].email << endl;
+        cout << "Adres: " << osoby[iteratorKontaktu].adres << endl;
+        cout << endl;
+
+        cout << "Czy na pewno usunac kontakt? (T/N)";
+        cin >> odpowiedz;
+        if (odpowiedz == 'T' || odpowiedz =='t')
+        {
+            osoby.erase(osoby.begin() + iteratorKontaktu);
+        }
+        iloscOsob--;
+        zapiszDaneDoPliku(osoby, iloscOsob);
+    }
 }

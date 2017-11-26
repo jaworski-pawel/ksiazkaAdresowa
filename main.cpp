@@ -222,39 +222,43 @@ int wczytajOsobyZPliku(vector<Osoba> &osoby)
 
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::in);
-    if(plik.good()==false) cout<<"Nie mozna otworzyc pliku!";
-
-    while (getline(plik, wczytanaLinia))
+    if(plik.good())
     {
-        int dlugoscWczytanejLinii = wczytanaLinia.size();
-        int nrPola = 0;
-        vector<string> poleKontaktu(6);
-
-        for (int pozycjaZnaku = 0; pozycjaZnaku < dlugoscWczytanejLinii; pozycjaZnaku++)
+        while (getline(plik, wczytanaLinia))
         {
-            if (wczytanaLinia[pozycjaZnaku] != 124)
+            int dlugoscWczytanejLinii = wczytanaLinia.size();
+            int nrPola = 0;
+            vector<string> poleKontaktu(6);
+
+            for (int pozycjaZnaku = 0; pozycjaZnaku < dlugoscWczytanejLinii; pozycjaZnaku++)
             {
-                poleKontaktu[nrPola] +=wczytanaLinia[pozycjaZnaku];
+                if (wczytanaLinia[pozycjaZnaku] != 124)
+                {
+                    poleKontaktu[nrPola] +=wczytanaLinia[pozycjaZnaku];
+                }
+                else
+                {
+                    nrPola++;
+                }
             }
-            else
-            {
-                nrPola++;
-            }
+            tymczasowaOsoba.id = stringNaInt(poleKontaktu[0]);
+            tymczasowaOsoba.imie = poleKontaktu[1];
+            tymczasowaOsoba.nazwisko = poleKontaktu[2];
+            tymczasowaOsoba.nrTel = poleKontaktu[3];
+            tymczasowaOsoba.email = poleKontaktu[4];
+            tymczasowaOsoba.adres = poleKontaktu[5];
+            osoby.push_back(tymczasowaOsoba);
+            poleKontaktu.erase(poleKontaktu.begin(), poleKontaktu.end());
+
+            iloscOsob++;
         }
-        tymczasowaOsoba.id = stringNaInt(poleKontaktu[0]);
-        tymczasowaOsoba.imie = poleKontaktu[1];
-        tymczasowaOsoba.nazwisko = poleKontaktu[2];
-        tymczasowaOsoba.nrTel = poleKontaktu[3];
-        tymczasowaOsoba.email = poleKontaktu[4];
-        tymczasowaOsoba.adres = poleKontaktu[5];
-        osoby.push_back(tymczasowaOsoba);
-        poleKontaktu.erase(poleKontaktu.begin(), poleKontaktu.end());
-
-        iloscOsob++;
+        plik.close();
     }
+    else
+    {
+        cout<<"Nie mozna otworzyc pliku!";
 
-    plik.close();
-
+    }
     return iloscOsob;
 }
 

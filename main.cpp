@@ -152,11 +152,15 @@ int znajdzIteratorKontaktu(vector<Osoba> &osoby, int iloscOsob, int idKontaktu)
 
 int przypiszId(vector<Osoba> osoby, int iloscOsob)
 {
-    int wolneId = 1;
+    int wolneId;
 
-    while (znajdzIteratorKontaktu(osoby, iloscOsob, wolneId) != -1)
+    if (iloscOsob == 0)
     {
-        wolneId++;
+        wolneId = 1;
+    }
+    else
+    {
+        wolneId = osoby[iloscOsob-1].id + 1;
     }
     return wolneId;
 }

@@ -24,7 +24,7 @@ int stringNaInt(string liczbaString);
 int wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy);
 void zapiszDaneLogowaniaDoPliku(vector<Uzytkownik> &uzytkownicy, int iloscUzytkownikow);
 int wczytajAdresatowUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkownika, string nazwapliku);
-int przypiszId(vector<Adresat> adresaci, int iloscKontaktow);
+int przypiszId();
 int dodajOsobe(vector<Adresat> &adresaci, int iloscKontaktow, int idUzytkownika);
 void wyszukajPoImieniu(vector<Adresat> &adresaci, string szukanaFraza, int idUzytkownika);
 void wyszukajPoNazwisku(vector<Adresat> &adresaci, string szukanaFraza, int idUzytkownika);
@@ -225,6 +225,7 @@ int wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy)
     int iloscUzytkownikow = 0;
 
     Uzytkownik tymczasowyUzytkownik;
+    uzytkownicy.erase(uzytkownicy.begin(), uzytkownicy.end());
 
     fstream plik;
     plik.open("Uzytkownicy.txt", ios::in);
@@ -350,17 +351,43 @@ int wczytajAdresatowUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkowni
     return iloscKontaktow;
 }
 
-int przypiszId(vector<Adresat> adresaci, int iloscKontaktow)
+int przypiszId()
 {
-    int wolneId;
+    int wolneId = 1;
+    string wczytanaLinia;
+    string wczytaneID;
 
-    if (iloscKontaktow == 0)
+    fstream plik;
+    plik.open("Adresaci.txt", ios::in);
+    if(plik.good())
     {
-        wolneId = 1;
+        while (getline(plik, wczytanaLinia))
+        {
+            int dlugoscWczytanejLinii = wczytanaLinia.size();
+
+            for (int pozycjaZnaku = 0; pozycjaZnaku < dlugoscWczytanejLinii; pozycjaZnaku++)
+            {
+                if (wczytanaLinia[pozycjaZnaku] != 124)
+                {
+                    wczytaneID += wczytanaLinia[pozycjaZnaku];
+                }
+                else
+                {
+                    if (wolneId <= stringNaInt(wczytaneID))
+                    {
+                        wolneId = stringNaInt(wczytaneID) + 1;
+                    }
+                    wczytaneID = "";
+                    break;
+                }
+            }
+        }
+        plik.close();
     }
     else
     {
-        wolneId = adresaci[iloscKontaktow-1].idAdresata + 1;
+        cout<<"Nie mozna otworzyc pliku!";
+
     }
     return wolneId;
 }
@@ -386,7 +413,7 @@ int dodajOsobe(vector<Adresat> &adresaci, int iloscKontaktow, int idUzytkownika)
     cin.sync();
     getline(cin, adres);
 
-    id = przypiszId(adresaci, iloscKontaktow);
+    id = przypiszId();
     cout << "Przypisano id " << id << endl;
 
     tymczasowyAdresat.idAdresata = id;

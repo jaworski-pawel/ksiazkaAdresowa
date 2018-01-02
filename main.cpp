@@ -28,17 +28,23 @@ int main()
             cout << "Wybor: ";
             cin >> wybor;
 
-            if (wybor == '1')
+            switch(wybor)
+            {
+            case '1':
             {
                 ksiazkaUzytkownikow.rejestracja(uzytkownicy);
+                break;
             }
-            else if (wybor == '2')
+            case '2':
             {
                 ksiazkaAdresatow.setIdZalogowanegoUzytkownika(ksiazkaUzytkownikow.logowanie(uzytkownicy));
+                break;
             }
-            else if (wybor == '9')
+            case '9':
             {
                 exit(0);
+                break;
+            }
             }
         }
         else
@@ -54,45 +60,57 @@ int main()
             cout << "7. Zmien haslo" << endl;
             cout << "8. Wyloguj sie" << endl;
             cin >> wybor;
-            if (wybor == '1')
+
+            switch(wybor)
+            {
+            case '1':
             {
                 ksiazkaAdresatow.dodajAdresata(adresaci);
+                break;
             }
-            else if (wybor == '2')
+            case '2':
             {
                 string szukanaFraza;
                 cout << "Wyszukiwanie kontaktow po imieniu." << endl;
                 cout << "Podaj imie: ";
                 cin >> szukanaFraza;
                 ksiazkaAdresatow.wyszukajPoImieniu(adresaci, szukanaFraza);
+                break;
             }
-            else if (wybor == '3')
+            case '3':
             {
                 string szukanaFraza;
                 cout << "Wyszukiwanie kontaktow po nazwisku." << endl;
                 cout << "Podaj nazwisko: ";
                 cin >> szukanaFraza;
                 ksiazkaAdresatow.wyszukajPoNazwisku(adresaci, szukanaFraza);
+                break;
             }
-            else if (wybor == '4')
+            case '4':
             {
                 ksiazkaAdresatow.wyswietlWszystkichAdresatow(adresaci);
+                break;
             }
-            else if (wybor == '5')
+            case '5':
             {
                 ksiazkaAdresatow.usunAdresata(adresaci);
+                break;
             }
-            else if (wybor == '6')
+            case '6':
             {
                 ksiazkaAdresatow.edytujAdresata(adresaci);
+                break;
             }
-            else if (wybor == '7')
+            case '7':
             {
                 ksiazkaUzytkownikow.zmianaHasla(uzytkownicy, ksiazkaAdresatow.getIdZalogowanegoUzytkownika());
+                break;
             }
-            else if (wybor == '8')
+            case '8':
             {
                 ksiazkaAdresatow.setIdZalogowanegoUzytkownika(0);
+                break;
+            }
             }
         }
 

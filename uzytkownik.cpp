@@ -3,11 +3,11 @@
 
 using namespace std;
 
-Uzytkownik::Uzytkownik(int _id, string _login, string _haslo)
+Uzytkownik::Uzytkownik(int id, string login, string haslo)
 {
-    id = _id;
-    login = _login;
-    haslo = _haslo;
+    this -> id = id;
+    this -> login = login;
+    this -> haslo = haslo;
 }
 
 int Uzytkownik::getId()
@@ -15,9 +15,9 @@ int Uzytkownik::getId()
     return id;
 }
 
-void Uzytkownik::setId(int _id)
+void Uzytkownik::setId(int id)
 {
-    id = _id;
+    this -> id = id;
 }
 
 string Uzytkownik::getLogin()
@@ -25,9 +25,9 @@ string Uzytkownik::getLogin()
     return login;
 }
 
-void Uzytkownik::setLogin(string _login)
+void Uzytkownik::setLogin(string login)
 {
-    login = _login;
+    this -> login = login;
 }
 
 string Uzytkownik::getHaslo()
@@ -35,7 +35,7 @@ string Uzytkownik::getHaslo()
     return haslo;
 }
 
-void Uzytkownik::setHaslo(string _haslo)
+void Uzytkownik::setHaslo(string haslo)
 {
-    haslo = _haslo;
+    this -> haslo = haslo;
 }

@@ -147,9 +147,9 @@ int KsiazkaUzytkownikow::getIloscUzytkownikow()
     return liczbaInt;
 }
 
-void KsiazkaUzytkownikow::setIloscUzytkownikow(int _iloscUzytkownikow)
+void KsiazkaUzytkownikow::setIloscUzytkownikow(int iloscUzytkownikow)
 {
-    iloscUzytkownikow = _iloscUzytkownikow;
+    this -> iloscUzytkownikow = iloscUzytkownikow;
 }
 
  void KsiazkaUzytkownikow::zapiszUzytkownikowDoPliku(vector<Uzytkownik> &uzytkownicy)

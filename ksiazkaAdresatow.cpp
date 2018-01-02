@@ -13,9 +13,9 @@ int KsiazkaAdresatow::getIdZalogowanegoUzytkownika()
     return idZalogowanegoUzytkownika;
 }
 
-void KsiazkaAdresatow::setIdZalogowanegoUzytkownika(int _idZalogowanegoUzytkownika)
+void KsiazkaAdresatow::setIdZalogowanegoUzytkownika(int idZalogowanegoUzytkownika)
 {
-    idZalogowanegoUzytkownika = _idZalogowanegoUzytkownika;
+    this -> idZalogowanegoUzytkownika = idZalogowanegoUzytkownika;
 }
 
 int KsiazkaAdresatow::getIloscUzytkownikow()
@@ -23,9 +23,9 @@ int KsiazkaAdresatow::getIloscUzytkownikow()
     return iloscUzytkownikow;
 }
 
-void KsiazkaAdresatow::setIloscUzytkownikow(int _iloscUzytkownikow)
+void KsiazkaAdresatow::setIloscUzytkownikow(int iloscUzytkownikow)
 {
-    iloscUzytkownikow = _iloscUzytkownikow;
+    this -> iloscUzytkownikow = iloscUzytkownikow;
 }
 
 void KsiazkaAdresatow::dodajAdresata(vector<Adresat> &adresaci)

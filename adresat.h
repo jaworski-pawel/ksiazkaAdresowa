@@ -16,21 +16,21 @@ class Adresat
     string adres;
 
 public:
-    Adresat(int _id, int _idUzytkownika, string _imie, string _nazwisko, string _numerTelefonu, string _email, string adres);
+    Adresat(int id, int idUzytkownika, string imie, string nazwisko, string numerTelefonu, string email, string adres);
     int getId();
-    void setId(int _id);
+    void setId(int id);
     int getIdUzytkownika();
-    void setIdUzytkownika(int _idUzytkownika);
+    void setIdUzytkownika(int idUzytkownika);
     string getImie();
-    void setImie(string _imie);
+    void setImie(string imie);
     string getNazwisko();
-    void setNazwisko(string _nazwisko);
+    void setNazwisko(string nazwisko);
     string getNumerTelefonu();
-    void setNumerTelefonu(string _numerTelefonu);
+    void setNumerTelefonu(string numerTelefonu);
     string getEmail();
-    void setEmail(string _email);
+    void setEmail(string email);
     string getAdres();
-    void setAdres(string _adres);
+    void setAdres(string adres);
 };
 
 #endif

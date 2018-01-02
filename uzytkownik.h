@@ -12,13 +12,13 @@ class Uzytkownik
     string haslo;
 
 public:
-    Uzytkownik(int _id, string _login, string _haslo);
+    Uzytkownik(int id, string login, string haslo);
     int getId();
-    void setId(int _id);
+    void setId(int id);
     string getLogin();
-    void setLogin(string _login);
+    void setLogin(string login);
     string getHaslo();
-    void setHaslo(string _haslo);
+    void setHaslo(string haslo);
 };
 
 #endif

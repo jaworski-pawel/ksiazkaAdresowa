@@ -18,9 +18,9 @@ class KsiazkaAdresatow
 public:
     KsiazkaAdresatow();
     int getIdZalogowanegoUzytkownika();
-    void setIdZalogowanegoUzytkownika(int _idZalogowanegoUzytkownika);
+    void setIdZalogowanegoUzytkownika(int idZalogowanegoUzytkownika);
     int getIloscUzytkownikow();
-    void setIloscUzytkownikow(int _iloscUzytkownikow);
+    void setIloscUzytkownikow(int iloscUzytkownikow);
     void dodajAdresata(vector<Adresat> &adresaci);
     void edytujAdresata(vector<Adresat> &adresaci);
     void usunAdresata(vector<Adresat> &adresaci);

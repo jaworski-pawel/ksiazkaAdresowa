@@ -3,15 +3,15 @@
 
 using namespace std;
 
-Adresat::Adresat(int _id, int _idUzytkownika, string _imie, string _nazwisko, string _numerTelefonu, string _email, string _adres)
+Adresat::Adresat(int id, int idUzytkownika, string imie, string nazwisko, string numerTelefonu, string email, string adres)
 {
-    id = _id;
-    idUzytkownika = _idUzytkownika;
-    imie = _imie;
-    nazwisko = _nazwisko;
-    numerTelefonu = _numerTelefonu;
-    email = _email;
-    adres = _adres;
+    this -> id = id;
+    this -> idUzytkownika = idUzytkownika;
+    this -> imie = imie;
+    this -> nazwisko = nazwisko;
+    this -> numerTelefonu = numerTelefonu;
+    this -> email = email;
+    this -> adres = adres;
 }
 
 int Adresat::getId()
@@ -19,9 +19,9 @@ int Adresat::getId()
     return id;
 }
 
-void Adresat::setId(int _id)
+void Adresat::setId(int id)
 {
-    id = _id;
+    this -> id = id;
 }
 
 int Adresat::getIdUzytkownika()
@@ -29,9 +29,9 @@ int Adresat::getIdUzytkownika()
     return idUzytkownika;
 }
 
-void Adresat::setIdUzytkownika(int _idUzytkownika)
+void Adresat::setIdUzytkownika(int idUzytkownika)
 {
-    idUzytkownika = _idUzytkownika;
+    this -> idUzytkownika = idUzytkownika;
 }
 
 string Adresat::getImie()
@@ -39,9 +39,9 @@ string Adresat::getImie()
     return imie;
 }
 
-void Adresat::setImie(string _imie)
+void Adresat::setImie(string imie)
 {
-    imie = _imie;
+    this -> imie = imie;
 }
 
 string Adresat::getNazwisko()
@@ -49,9 +49,9 @@ string Adresat::getNazwisko()
     return nazwisko;
 }
 
-void Adresat::setNazwisko(string _nazwisko)
+void Adresat::setNazwisko(string nazwisko)
 {
-    nazwisko = _nazwisko;
+    this -> nazwisko = nazwisko;
 }
 
 string Adresat::getNumerTelefonu()
@@ -59,9 +59,9 @@ string Adresat::getNumerTelefonu()
     return numerTelefonu;
 }
 
-void Adresat::setNumerTelefonu(string _numerTelefonu)
+void Adresat::setNumerTelefonu(string numerTelefonu)
 {
-    numerTelefonu = _numerTelefonu;
+    this -> numerTelefonu = numerTelefonu;
 }
 
 string Adresat::getEmail()
@@ -69,9 +69,9 @@ string Adresat::getEmail()
     return email;
 }
 
-void Adresat::setEmail(string _email)
+void Adresat::setEmail(string email)
 {
-    email = _email;
+    this -> email = email;
 }
 
 string Adresat::getAdres()
@@ -79,7 +79,7 @@ string Adresat::getAdres()
     return adres;
 }
 
-void Adresat::setAdres(string _adres)
+void Adresat::setAdres(string adres)
 {
-    adres = _adres;
+    this -> adres = adres;
 }

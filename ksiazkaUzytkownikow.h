@@ -20,7 +20,7 @@ public:
 
 private:
     int stringNaInt(string liczbaString);
-    void setIloscUzytkownikow(int _iloscUzytkownikow);
+    void setIloscUzytkownikow(int iloscUzytkownikow);
     void wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy);
     void zapiszUzytkownikowDoPliku(vector<Uzytkownik> &uzytkownicy);
 };

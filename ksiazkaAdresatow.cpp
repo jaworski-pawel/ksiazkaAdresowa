@@ -226,6 +226,9 @@ void KsiazkaAdresatow::usunAdresata(vector<Adresat> &adresaci)
         {
             utworzKopieKontaktow(adresaci);
 
+            cout << "Zoba kopie" << endl;
+            Sleep(30000);
+
             fstream plik;
             plik.open("Adresaci.txt", ios::out);
             if (plik.good())
@@ -240,7 +243,6 @@ void KsiazkaAdresatow::usunAdresata(vector<Adresat> &adresaci)
 
             for (int i = 1; i <= iloscUzytkownikow; i++)
             {
-                int iloscKontaktow;
                 iloscKontaktow = wczytajAdresatowUzytkownikaZPliku(adresaci, i, "tempAdresaci.txt");
 
                 for (int iteratorKontaktu = 0; iteratorKontaktu < iloscKontaktow; iteratorKontaktu++)
@@ -418,7 +420,7 @@ int KsiazkaAdresatow::przypiszId()
 int KsiazkaAdresatow::wczytajAdresatowUzytkownikaZPliku(vector<Adresat> &adresaci, int idUzytkownika, string nazwapliku)
 {
     string wczytanaLinia;
-    int iloscKontaktow = 0;
+    int iloscKontaktowUzytkownika = 0;
 
     adresaci.erase(adresaci.begin(), adresaci.end());
 
@@ -444,13 +446,13 @@ int KsiazkaAdresatow::wczytajAdresatowUzytkownikaZPliku(vector<Adresat> &adresac
                 }
             }
 
-            if (stringNaInt(poleKontaktu[1]) == idZalogowanegoUzytkownika)
+            if (stringNaInt(poleKontaktu[1]) == idUzytkownika)
             {
                 Adresat tymczasowyAdresat(stringNaInt(poleKontaktu[0]), stringNaInt(poleKontaktu[1]), poleKontaktu[2], poleKontaktu[3], poleKontaktu[4], poleKontaktu[5], poleKontaktu[6]);
                 adresaci.push_back(tymczasowyAdresat);
                 poleKontaktu.erase(poleKontaktu.begin(), poleKontaktu.end());
 
-                iloscKontaktow++;
+                iloscKontaktowUzytkownika++;
             }
         }
         plik.close();
@@ -460,7 +462,7 @@ int KsiazkaAdresatow::wczytajAdresatowUzytkownikaZPliku(vector<Adresat> &adresac
         cout << "Nie mozna otworzyc pliku!" << endl;
 
     }
-    return iloscKontaktow;
+    return iloscKontaktowUzytkownika;
 }
 
 int KsiazkaAdresatow::znajdzIteratorKontaktu(vector<Adresat> &adresaci, int idKontaktu)
@@ -496,10 +498,10 @@ void KsiazkaAdresatow::utworzKopieKontaktow(vector<Adresat> adresaci)
 {
     for (int i = 1; i <= iloscUzytkownikow; i++)
     {
-        int iloscKontaktow;
-        iloscKontaktow = wczytajAdresatowUzytkownikaZPliku(adresaci, i, "Adresaci.txt");
+        int iloscKontaktowUzytkownika;
+        iloscKontaktowUzytkownika = wczytajAdresatowUzytkownikaZPliku(adresaci, i, "Adresaci.txt");
 
-        for (int iteratorKontaktu = 0; iteratorKontaktu < iloscKontaktow; iteratorKontaktu++)
+        for (int iteratorKontaktu = 0; iteratorKontaktu < iloscKontaktowUzytkownika; iteratorKontaktu++)
         {
             fstream plik;
             plik.open("tempAdresaci.txt", ios::out | ios::app);

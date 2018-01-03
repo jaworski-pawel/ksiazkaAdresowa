@@ -226,9 +226,6 @@ void KsiazkaAdresatow::usunAdresata(vector<Adresat> &adresaci)
         {
             utworzKopieKontaktow(adresaci);
 
-            cout << "Zoba kopie" << endl;
-            Sleep(30000);
-
             fstream plik;
             plik.open("Adresaci.txt", ios::out);
             if (plik.good())
